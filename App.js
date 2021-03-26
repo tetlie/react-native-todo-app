@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 
-export default function App() {
+import Item from "./components/Item";
+import Input from "./components/Input";
+
+const App = () => {
+  const [todos, setTodos] = useState(["Melk", "Brød", "Pasta", "Tomater"]);
+
+  const addTodo = (todo) => {
+    setTodos([...todos, todo]);
+  };
+
+  const handleRemove = (index) => {
+    setTodos(
+      todos.filter((i, x) => {
+        return index !== x;
+      })
+    );
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.wrapper}>
+      {todos.map((item, index) => {
+        return <Item item={item} index={index} removeItem={handleRemove} />;
+      })}
+      <Input addTodo={addTodo} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  text: {
+    fontSize: 22,
+  },
+  wrapper: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
+
+export default App;
